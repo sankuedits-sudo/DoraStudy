@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>App Update Required</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0a0c10;
+      --card-bg: rgba(22, 27, 34, 0.75);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --accent-primary: #38ef7d;
+      --accent-secondary: #11998e;
+      --text-main: #f0f6fc;
+      --text-sub: #8b949e;
+      --glow-color: rgba(56, 239, 125, 0.18);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      min-height: 100vh;
+      background-color: var(--bg-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Background Ambient Lights */
+    .ambient-glow {
+      position: absolute;
+      width: 450px;
+      height: 450px;
+      background: radial-gradient(circle, var(--glow-color) 0%, transparent 70%);
+      filter: blur(60px);
+      z-index: 1;
+      border-radius: 50%;
+      pointer-events: none;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .ambient-glow-secondary {
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(17, 153, 142, 0.15) 0%, transparent 70%);
+      filter: blur(50px);
+      z-index: 1;
+      border-radius: 50%;
+      pointer-events: none;
+      bottom: 10%;
+      right: 15%;
+    }
+
+    /* Modal / Card Container */
+    .update-card {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 420px;
+      background: var(--card-bg);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid var(--card-border);
+      border-radius: 28px;
+      padding: 40px 32px;
+      text-align: center;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6),
+                  0 0 0 1px rgba(255, 255, 255, 0.05);
+      animation: cardAppear 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes cardAppear {
+      from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* Icon Styling */
+    .icon-wrapper {
+      position: relative;
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 28px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 24px;
+      background: linear-gradient(135deg, rgba(56, 239, 125, 0.12), rgba(17, 153, 142, 0.05));
+      border: 1px solid rgba(56, 239, 125, 0.25);
+      box-shadow: 0 10px 25px -5px rgba(56, 239, 125, 0.2);
+    }
+
+    .icon-wrapper svg {
+      width: 38px;
+      height: 38px;
+      stroke: var(--accent-primary);
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+    }
+
+    /* Badge */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(56, 239, 125, 0.1);
+      border: 1px solid rgba(56, 239, 125, 0.2);
+      color: var(--accent-primary);
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: var(--accent-primary);
+      box-shadow: 0 0 8px var(--accent-primary);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    /* Typography */
+    .title {
+      color: var(--text-main);
+      font-size: 1.55rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.25;
+      margin-bottom: 10px;
+    }
+
+    .description {
+      color: var(--text-sub);
+      font-size: 0.95rem;
+      line-height: 1.55;
+      margin-bottom: 32px;
+      font-weight: 400;
+    }
+
+    /* Button */
+    .btn-update {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 16px 24px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+      color: #05140e;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 0.01em;
+      box-shadow: 0 8px 24px -4px rgba(56, 239, 125, 0.35);
+      transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-update:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px -4px rgba(56, 239, 125, 0.5);
+      filter: brightness(1.06);
+    }
+
+    .btn-update:active {
+      transform: translateY(1px);
+      box-shadow: 0 4px 15px -2px rgba(56, 239, 125, 0.3);
+    }
+
+    .btn-update svg {
+      width: 18px;
+      height: 18px;
+      stroke: #05140e;
+      stroke-width: 2.5;
+      fill: none;
+      transition: transform 0.2s ease;
+    }
+
+    .btn-update:hover svg {
+      transform: translateY(2px);
+    }
+
+    /* Subtle footer info */
+    .footer-note {
+      margin-top: 20px;
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.3);
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient Light Effects -->
+  <div class="ambient-glow"></div>
+  <div class="ambient-glow-secondary"></div>
+
+  <!-- Main Card -->
+  <div class="update-card">
+    <!-- Icon -->
+    <div class="icon-wrapper">
+      <svg viewBox="0 0 24 24">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+        <polyline points="7 10 12 15 17 10"></polyline>
+        <line x1="12" y1="15" x2="12" y2="3"></line>
+      </svg>
+    </div>
+
+    <!-- Badge -->
+    <div class="badge">
+      <div class="badge-dot"></div>
+      Important Update
+    </div>
+
+    <!-- Content -->
+    <h1 class="title">New version available</h1>
+    <p class="description">Please update the app to continue enjoying seamless performance, security, and the latest features.</p>
+
+    <!-- Action Button -->
+    <a href="https://whatsapp.com/channel/0029Vb9Qv0mF6smtNjVyOw17" target="_blank" class="btn-update">
+      <span>Update Now</span>
+      <svg viewBox="0 0 24 24">
+        <path d="M12 5v14M19 12l-7 7-7-7"/>
+      </svg>
+    </a>
+
+    <div class="footer-note">Fast & Secure download via official channel</div>
+  </div>
+
+</body>
+</html>
